@@ -15,40 +15,25 @@ export default function App() {
   const [bandColor, setBandColor] = useState('#eeeeee')
 
   return (
-    <div style={{
-      width: '80%',
-      height: '80vh',
-      margin: 'auto',
-      position: 'absolute',
-      top: '0',
-      bottom: '0',
-      left: '0',
-      right: '0',
-      border: '2px solid #eee',
-      borderRadius: '12px',
-      overflow: 'hidden',
-    }}>
+    <div className="w-4/5 h-4/5 m-auto absolute inset-0 border-2 border-[#eee] rounded-xl overflow-hidden">
       <ImageUploader 
         onFrontImageChange={setFrontImage}
         onBackImageChange={setBackImage}
       />
       <ColorPicker onColorChange={setBandColor} />
-      <div style={{ 
-        position: 'relative', 
-        width: '100%', 
-        height: '100%' 
-      }}>
-        <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 0 }}>
+      <div
+        className="relative w-full h-full"
+      >
+        <div className="absolute w-full h-full z-0">
           <Squares direction="diagonal" speed={0.5} />
         </div>
 
-        <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
+        <div className="absolute w-full h-full z-1">
           <Canvas camera={{ position: [0, 0, 13], fov: 25 }} >
             <ambientLight intensity={Math.PI} />
             <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
               <Band frontImage={frontImage} backImage={backImage} bandColor={bandColor} />
             </Physics>
-            {/* <Environment background blur={0.9}> */}
             <Environment>
               <color attach="background" args={['black']} />
               <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
