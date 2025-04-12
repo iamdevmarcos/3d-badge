@@ -12,5 +12,7 @@ body,
 }
 
 body {
-  background-color: #111;
+  margin: 0;
+  background: #eee;
+  overflow: hidden;
 }

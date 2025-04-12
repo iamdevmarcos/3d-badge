@@ -1,29 +1,54 @@
 import * as THREE from 'three'
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei'
+import { useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
-import { useControls } from 'leva'
-
+import { Squares } from './components/Squares'
 extend({ MeshLineGeometry, MeshLineMaterial })
 
 export default function App() {
-  const { debug } = useControls({ debug: false })
   return (
-    <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
-      <ambientLight intensity={Math.PI} />
-      <Physics debug={debug} interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-        <Band />
-      </Physics>
-      <Environment background blur={0.75}>
-        <color attach="background" args={['black']} />
-        <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
-      </Environment>
-    </Canvas>
+    <div style={{
+      width: '80%',
+      height: '80vh',
+      margin: 'auto',
+      position: 'absolute',
+      top: '0',
+      bottom: '0',
+      left: '0',
+      right: '0',
+      border: '2px solid #eee',
+      borderRadius: '12px',
+      overflow: 'hidden',
+    }}>
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        height: '100%' 
+      }}>
+        <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 0 }}>
+          <Squares direction="diagonal" speed={0.5} />
+        </div>
+
+      <div style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
+        <Canvas camera={{ position: [0, 0, 13], fov: 25 }} >
+          <ambientLight intensity={Math.PI} />
+          <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
+            <Band />
+          </Physics>
+          {/* <Environment background blur={0.9}> */}
+          <Environment>
+            <color attach="background" args={['black']} />
+            <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+            <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+          </Environment>
+        </Canvas>
+        </div>
+      </div>
+    </div>
   )
 }
 function Band({ maxSpeed = 50, minSpeed = 10 }) {
@@ -59,19 +84,18 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       card.current?.setNextKinematicTranslation({ x: vec.x - dragged.x, y: vec.y - dragged.y, z: vec.z - dragged.z })
     }
     if (fixed.current) {
-      // Fix most of the jitter when over pulling the card
       ;[j1, j2].forEach((ref) => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation())
         const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())))
         ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)))
       })
-      // Calculate catmul curve
+
       curve.points[0].copy(j3.current.translation())
       curve.points[1].copy(j2.current.lerped)
       curve.points[2].copy(j1.current.lerped)
       curve.points[3].copy(fixed.current.translation())
       band.current.geometry.setPoints(curve.getPoints(32))
-      // Tilt it back towards the screen
+
       ang.copy(card.current.angvel())
       rot.copy(card.current.rotation())
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z })
@@ -83,7 +107,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={[0, 4, 0]} scale={0.65}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />
@@ -98,7 +122,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={2.25}
-            position={[0, -1.2, -0.05]}
+            position={[0, 0, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
@@ -128,9 +152,16 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band}>
+      <mesh ref={band} position={[0, 0.30, 0]}>
         <meshLineGeometry />
-        <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={bandTexture} repeat={[-3, 1]} lineWidth={1} />
+        {/* <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={bandTexture} repeat={[-3, 1]} lineWidth={1} /> */}
+        <meshLineMaterial 
+          color="#eee"
+          opacity={0.6}
+          depthTest={false}
+          resolution={[width, height]}
+          lineWidth={1}
+        />
       </mesh>
     </>
   )
