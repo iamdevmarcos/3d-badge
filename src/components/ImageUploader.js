@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
   const [frontImage, setFrontImage] = useState(null)
   const [backImage, setBackImage] = useState(null)
+  const frontInputRef = useRef(null)
+  const backInputRef = useRef(null)
 
   const handleImageUpload = (e, type) => {
     const file = e.target.files[0]
@@ -29,27 +31,41 @@ export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
       left: '20px', 
       zIndex: 1000,
       backgroundColor: 'rgba(0,0,0,0.7)',
-      padding: '20px',
+      padding: '14px',
       borderRadius: '8px',
       color: 'white'
     }}>
       <div style={{ marginBottom: '10px' }}>
-        <label style={{ display: 'block', marginBottom: '5px' }}>Front Image:</label>
         <input
+          ref={frontInputRef}
           type="file"
           accept="image/*"
           onChange={(e) => handleImageUpload(e, 'front')}
-          style={{ color: 'white' }}
+          style={{ color: 'white', display: 'none' }}
         />
+        <button 
+          onClick={() => frontInputRef.current.click()}
+          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[12px]"
+          style={{ letterSpacing: '-0.6px' }}
+        >
+          Front Image
+        </button>
       </div>
       <div>
-        <label style={{ display: 'block', marginBottom: '5px' }}>Back Image:</label>
         <input
+          ref={backInputRef}
           type="file"
           accept="image/*"
           onChange={(e) => handleImageUpload(e, 'back')}
-          style={{ color: 'white' }}
+          style={{ color: 'white', display: 'none' }}
         />
+        <button 
+          onClick={() => backInputRef.current.click()}
+          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[12px]"
+          style={{ letterSpacing: '-0.6px' }}
+        >
+          Back Image
+        </button>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
 import { useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
+import { Settings, X } from 'lucide-react'
 import { Squares } from './components/Squares'
 import { ImageUploader } from './components/ImageUploader'
 import { ColorPicker } from './components/ColorPicker'
@@ -13,19 +14,62 @@ export default function App() {
   const [frontImage, setFrontImage] = useState('/bg.png')
   const [backImage, setBackImage] = useState('/bg2.jpeg')
   const [bandColor, setBandColor] = useState('#eeeeee')
+  const [showControls, setShowControls] = useState(false)
+
+  const toggleControls = () => {
+    setShowControls(!showControls)
+  }
 
   return (
-    <div className="w-4/5 h-4/5 m-auto absolute inset-0 border-2 border-[#eee] rounded-xl overflow-hidden">
-      <ImageUploader 
-        onFrontImageChange={setFrontImage}
-        onBackImageChange={setBackImage}
-      />
-      <ColorPicker onColorChange={setBandColor} />
+    <div className="w-[95%] h-[95%] m-auto absolute inset-0 border-4 border-[#d3d3d3] rounded-xl overflow-hidden">
+      {showControls && (
+        <>
+          <ImageUploader 
+            onFrontImageChange={setFrontImage}
+            onBackImageChange={setBackImage}
+          />
+          <ColorPicker onColorChange={setBandColor} />
+        </>
+      )}
+      
+      <button 
+        onClick={toggleControls}
+        style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          left: '20px', 
+          zIndex: 1000,
+          backgroundColor: '#eee',
+          color: 'black',
+          padding: '8px 12px',
+          borderRadius: '4px',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}
+      >
+        {showControls ? <X size={16} /> : <Settings size={16} />}
+      </button>
+      
       <div
         className="relative w-full h-full"
       >
         <div className="absolute w-full h-full z-0">
           <Squares direction="diagonal" speed={0.5} />
+        </div>
+
+        <div style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          right: '20px', 
+          zIndex: 1000,
+          color: 'white'
+        }}>
+          <h1 className="text-[12px] font-regular w-fit" style={{ letterSpacing: '-0.6px' }}>
+            built by <a href="https://x.com/mendestsx" target="_blank" rel="noopener noreferrer" className="underline font-semibold underline-offset-4">marcosmendes</a>
+          </h1>
         </div>
 
         <div className="absolute w-full h-full z-1">
@@ -47,6 +91,7 @@ export default function App() {
     </div>
   )
 }
+
 function Band({ maxSpeed = 50, minSpeed = 10, frontImage, backImage, bandColor }) {
   const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef() // prettier-ignore
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3() // prettier-ignore
