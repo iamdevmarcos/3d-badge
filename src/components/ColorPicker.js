@@ -10,12 +10,7 @@ export function ColorPicker({ onColorChange }) {
   }
 
   return (
-    <div style={{ 
-      position: 'absolute', 
-      top: '20px', 
-      right: '20px', 
-      zIndex: 1000,
-    }}>
+    <div className="absolute top-[20px] right-[20px] z-[1000]">
       <div>
         <SketchPicker
           disableAlpha

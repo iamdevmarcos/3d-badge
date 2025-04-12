@@ -23,7 +23,7 @@ export function Squares({
     if (!ctx) return
 
     // Set canvas background
-    canvas.style.background = "#060606"
+    canvas.style.background = "#050505"
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth
@@ -154,16 +154,7 @@ export function Squares({
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        display: 'block',
-        border: 'none',
-        ...className, 
-      }}
+      className="absolute top-0 left-0 w-full h-full block border-none"
     />
   )
 }

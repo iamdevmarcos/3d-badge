@@ -25,23 +25,14 @@ export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
   }
 
   return (
-    <div style={{ 
-      position: 'absolute', 
-      top: '20px', 
-      left: '20px', 
-      zIndex: 1000,
-      backgroundColor: 'rgba(0,0,0,0.7)',
-      padding: '14px',
-      borderRadius: '8px',
-      color: 'white'
-    }}>
-      <div style={{ marginBottom: '10px' }}>
+    <div className="absolute top-[20px] left-[20px] z-[1000] bg-black/70 p-[14px] rounded-[8px] text-white">
+      <div className="mb-[10px]">
         <input
           ref={frontInputRef}
           type="file"
           accept="image/*"
           onChange={(e) => handleImageUpload(e, 'front')}
-          style={{ color: 'white', display: 'none' }}
+          className="text-white hidden"
         />
         <button 
           onClick={() => frontInputRef.current.click()}
@@ -57,7 +48,7 @@ export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
           type="file"
           accept="image/*"
           onChange={(e) => handleImageUpload(e, 'back')}
-          style={{ color: 'white', display: 'none' }}
+          className="text-white hidden"
         />
         <button 
           onClick={() => backInputRef.current.click()}

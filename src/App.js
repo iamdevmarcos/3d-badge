@@ -4,7 +4,7 @@ import { Canvas, extend, useThree, useFrame } from '@react-three/fiber'
 import { useTexture, Environment, Lightformer } from '@react-three/drei'
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
-import { Settings, X } from 'lucide-react'
+import { Settings, X, Github } from 'lucide-react'
 import { Squares } from './components/Squares'
 import { ImageUploader } from './components/ImageUploader'
 import { ColorPicker } from './components/ColorPicker'
@@ -32,26 +32,21 @@ export default function App() {
         </>
       )}
       
-      <button 
-        onClick={toggleControls}
-        style={{ 
-          position: 'absolute', 
-          bottom: '20px', 
-          left: '20px', 
-          zIndex: 1000,
-          backgroundColor: '#eee',
-          color: 'black',
-          padding: '8px 12px',
-          borderRadius: '4px',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}
-      >
-        {showControls ? <X size={24} /> : <Settings size={24} />}
-      </button>
+      <div className="absolute bottom-[20px] left-[20px] z-[1000] flex gap-[16px]">
+        <button 
+          onClick={toggleControls}
+          className="bg-[#eeeeee] text-black px-[12px] py-[8px] rounded-[4px] border-none cursor-pointer flex items-center gap-[8px]"
+        >
+          {showControls ? <X size={24} /> : <Settings size={24} />}
+        </button>
+
+        <button 
+          onClick={() => window.open('https://github.com/iamdevmarcos/3d-badge', '_blank')}
+          className="bg-[#eeeeee] text-black px-[12px] py-[8px] rounded-[4px] border-none cursor-pointer flex items-center gap-[8px]"
+        >
+          <Github size={24} />
+        </button>
+      </div>
       
       <div
         className="relative w-full h-full"
@@ -60,13 +55,7 @@ export default function App() {
           <Squares direction="diagonal" speed={0.5} />
         </div>
 
-        <div style={{ 
-          position: 'absolute', 
-          bottom: '20px', 
-          right: '20px', 
-          zIndex: 1000,
-          color: 'white'
-        }}>
+        <div className="absolute bottom-[20px] right-[20px] z-[1000] text-white">
           <h1 className="text-[16px] font-regular w-fit" style={{ letterSpacing: '-0.6px' }}>
             built by <a href="https://x.com/mendestsx" target="_blank" rel="noopener noreferrer" className="underline font-semibold underline-offset-4">marcosmendes</a>
           </h1>

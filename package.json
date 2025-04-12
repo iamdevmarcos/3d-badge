@@ -1,4 +1,10 @@
 {
+  "name": "3d-badge",
+  "version": "1.0.0",
+  "description": "3D Badge",
+  "keywords": ["3d", "badge", "react", "three.js"],
+  "author": "marcosmendes",
+  "license": "MIT",
   "dependencies": {
     "@react-three/drei": "9.96.4",
     "@react-three/fiber": "8.15.15",
