@@ -21,7 +21,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-[95%] h-[95%] m-auto absolute inset-0 border-4 border-[#d3d3d3] rounded-xl overflow-hidden">
+    <div className="w-[100%] h-[100%] md:w-[95%] md:h-[95%] m-auto absolute inset-0 border-4 border-[#d3d3d3] rounded-xl overflow-hidden">
       {showControls && (
         <>
           <ImageUploader 
@@ -50,7 +50,7 @@ export default function App() {
           gap: '8px'
         }}
       >
-        {showControls ? <X size={16} /> : <Settings size={16} />}
+        {showControls ? <X size={24} /> : <Settings size={24} />}
       </button>
       
       <div
@@ -67,7 +67,7 @@ export default function App() {
           zIndex: 1000,
           color: 'white'
         }}>
-          <h1 className="text-[12px] font-regular w-fit" style={{ letterSpacing: '-0.6px' }}>
+          <h1 className="text-[16px] font-regular w-fit" style={{ letterSpacing: '-0.6px' }}>
             built by <a href="https://x.com/mendestsx" target="_blank" rel="noopener noreferrer" className="underline font-semibold underline-offset-4">marcosmendes</a>
           </h1>
         </div>

@@ -45,7 +45,7 @@ export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
         />
         <button 
           onClick={() => frontInputRef.current.click()}
-          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[12px]"
+          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[16px]"
           style={{ letterSpacing: '-0.6px' }}
         >
           Front Image
@@ -61,7 +61,7 @@ export function ImageUploader({ onFrontImageChange, onBackImageChange }) {
         />
         <button 
           onClick={() => backInputRef.current.click()}
-          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[12px]"
+          className="px-2 py-1 bg-[#eeeeee] border-none rounded text-black cursor-pointer text-[16px]"
           style={{ letterSpacing: '-0.6px' }}
         >
           Back Image
